@@ -13,6 +13,7 @@
 		B1A35B6F20AA870800D7CD97 /* StructByExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A35B6E20AA870800D7CD97 /* StructByExample.swift */; };
 		B1A35B7120AA951D00D7CD97 /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A35B7020AA951D00D7CD97 /* TestHelpers.swift */; };
 		B1A35B7320AA959900D7CD97 /* DispatchQueueByExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A35B7220AA959900D7CD97 /* DispatchQueueByExample.swift */; };
+		B1A35B7520AA97BC00D7CD97 /* ClassesByExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A35B7420AA97BC00D7CD97 /* ClassesByExample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		B1A35B6E20AA870800D7CD97 /* StructByExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructByExample.swift; sourceTree = "<group>"; };
 		B1A35B7020AA951D00D7CD97 /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
 		B1A35B7220AA959900D7CD97 /* DispatchQueueByExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueueByExample.swift; sourceTree = "<group>"; };
+		B1A35B7420AA97BC00D7CD97 /* ClassesByExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassesByExample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				B1A35B6E20AA870800D7CD97 /* StructByExample.swift */,
 				B1A35B6220AA83F200D7CD97 /* EnumByExample.swift */,
 				B1A35B7220AA959900D7CD97 /* DispatchQueueByExample.swift */,
+				B1A35B7420AA97BC00D7CD97 /* ClassesByExample.swift */,
 				B1A35B6420AA83F200D7CD97 /* Info.plist */,
 			);
 			path = SwiftMemoryByExampleTests;
@@ -212,6 +215,7 @@
 			files = (
 				B1A35B6F20AA870800D7CD97 /* StructByExample.swift in Sources */,
 				B1A35B6320AA83F200D7CD97 /* EnumByExample.swift in Sources */,
+				B1A35B7520AA97BC00D7CD97 /* ClassesByExample.swift in Sources */,
 				B1A35B7120AA951D00D7CD97 /* TestHelpers.swift in Sources */,
 				B1A35B7320AA959900D7CD97 /* DispatchQueueByExample.swift in Sources */,
 			);
