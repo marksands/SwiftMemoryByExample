@@ -30,7 +30,7 @@ protocol ClassWithStructDelegateProviding: class {
 }
 
 class ExampleClassWithStructDelegateProviding: ClassWithStructDelegateProviding {
-    var structDelegate = ExampleStructAsDelegate()
+    private var structDelegate = ExampleStructAsDelegate()
     
     init(referenceSemantics: ReferenceSemantics = .strong) {
         if referenceSemantics == .strong {

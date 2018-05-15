@@ -1,8 +1,8 @@
 import XCTest
 
 class ClassExample {
-    var closure: () -> () = { }
-    var innerClosure: () -> () = { }
+    private var closure: () -> () = { }
+    private var innerClosure: () -> () = { }
     
     func captureSelfStrongly() {
         closure = {
@@ -36,6 +36,17 @@ class ClassExample {
         closure()
     }
     
+    func captureOuterSelfStronglyInnerSelfWeakly() {
+        var transientClosure: (() -> ())?
+
+        closure = {
+            transientClosure = { [weak self] in
+
+            }
+        }
+        closure()
+    }
+    
     func captureSelfStronglyWithinTransientClosure() {
         var transientClosure: (() -> ())?
 
@@ -43,6 +54,7 @@ class ClassExample {
             transientClosure = {
                 _ = self
             }
+            transientClosure?()
         }
     }
     

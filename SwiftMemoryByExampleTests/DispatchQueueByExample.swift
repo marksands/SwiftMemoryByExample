@@ -2,7 +2,7 @@ import XCTest
 
 class DispatchQueueExample {
     private let dispatchQueue: DispatchQueue
-    var closure: () -> () = { }
+    private var closure: () -> () = { }
     
     init(dispatchQueue: DispatchQueue = .main) {
         self.dispatchQueue = dispatchQueue

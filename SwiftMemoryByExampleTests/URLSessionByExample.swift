@@ -1,7 +1,7 @@
 import XCTest
 
 class URLSessionExample {
-    let completedRequest: () -> ()
+    private let completedRequest: () -> ()
     
     init(completion: @escaping () -> ()) {
         completedRequest = completion
@@ -36,6 +36,33 @@ class URLSessionExample {
         URLSession.shared.dataTask(with: URL(string: "https://www.apple.com")!, completionHandler: { _, _, _  in
             self.completedRequest()
         })
+    }
+}
+
+class CancelRequestBeforeCompletion {
+    private var task: URLSessionDataTask?
+    var handleResult: (Data?) -> () = { _ in }
+    
+    func completeWithIncorrectUsageOfWeakSelf(url: URL) {
+        task = URLSession.shared.dataTask(with: url) { data, response, error in
+            DispatchQueue.main.async { [weak self] in
+                self?.handleResult(data)
+            }
+        }
+        task?.resume()
+    }
+
+    func completeWithWeakSelf(url: URL) {
+        task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                self?.handleResult(data)
+            }
+        }
+        task?.resume()
+    }
+
+    deinit {
+        task?.cancel()
     }
 }
 
@@ -108,6 +135,48 @@ class URLSessionByExampleTests: XCTestCase {
 
         XCTWaiter().wait(for: [expectation], timeout: 1)
 
+        XCTAssertNil(testObject)
+    }
+    
+    func testLeak5() {
+        let expectation = self.expectation(description: "")
+        expectation.isInverted = true
+
+        weak var testObject: CancelRequestBeforeCompletion?
+        
+        autoreleasepool {
+            let example = CancelRequestBeforeCompletion()
+            example.handleResult = { _ in
+                expectation.fulfill()
+            }
+            example.completeWithIncorrectUsageOfWeakSelf(url: URL(string: "https://www.apple.com")!)
+            
+            testObject = example
+        }
+        
+        XCTWaiter().wait(for: [expectation], timeout: 0)
+        
+        XCTAssertNil(testObject)
+    }
+    
+    func testLeak6() {
+        let expectation = self.expectation(description: "")
+        expectation.isInverted = true
+
+        weak var testObject: CancelRequestBeforeCompletion?
+        
+        autoreleasepool {
+            let example = CancelRequestBeforeCompletion()
+            example.handleResult = { _ in
+                expectation.fulfill()
+            }
+            example.completeWithWeakSelf(url: URL(string: "https://www.apple.com")!)
+            
+            testObject = example
+        }
+        
+        XCTWaiter().wait(for: [expectation], timeout: 0)
+        
         XCTAssertNil(testObject)
     }
 }
