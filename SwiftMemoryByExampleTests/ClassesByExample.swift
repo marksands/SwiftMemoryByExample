@@ -27,10 +27,34 @@ class ClassExample {
         closure()
     }
     
+    func captureInnerSelfStronglyUsingGuard() {
+        var innerClosure: (() -> ())?
+        closure = { [weak self] in
+            guard let `self` = self else { return }
+            innerClosure = {
+                self.takeClosureArgument(self.closure)
+            }
+            innerClosure?()
+        }
+        closure()
+    }
+    
+    func captureInnerSelfWeaklyWithMultipleCaptureListArguments() {
+        var innerClosure: (() -> ())?
+        closure = { [weak self] in
+            guard let `self` = self else { return }
+            innerClosure = { [weak weakSelf = self, weakClosure = self.closure] in
+                weakSelf?.takeClosureArgument(weakClosure)
+            }
+            innerClosure?()
+        }
+        closure()
+    }
+    
     func captureInnerSelfWeakly() {
         closure = { [weak self] in
-            self?.innerClosure = { [weak self] in
-                _ = self
+            self?.innerClosure = { [weak weakSelf = self] in
+                _ = weakSelf
             }
         }
         closure()
@@ -71,6 +95,13 @@ class ClassExample {
         closure()
     }
 
+    func captureImplicitSelfFromFunction3() {
+        closure = { [weak self, block = self.releaseClosure] in
+            self?.takeClosureArgument(block)
+        }
+        closure()
+    }
+    
     func captureImplicitSelfWeaklyFromFunction() {
         closure = { [weak self] in
             self?.takeClosureArgument({
@@ -216,8 +247,21 @@ class ClassesByExampleTests: XCTestCase {
         
         XCTAssertNil(testObject)
     }
-    
+
     func testLeak9() {
+        weak var testObject = ClassExample()
+        
+        autoreleasepool {
+            let example = ClassExample()
+            example.captureImplicitSelfFromFunction3()
+            
+            testObject = example
+        }
+        
+        XCTAssertNil(testObject)
+    }
+    
+    func testLeak10() {
         weak var testObject = ClassExample()
         
         autoreleasepool {
@@ -230,7 +274,33 @@ class ClassesByExampleTests: XCTestCase {
         XCTAssertNil(testObject)
     }
     
-    func testLeak10() {
+    func testLeak11() {
+        weak var testObject = ClassExample()
+        
+        autoreleasepool {
+            let example = ClassExample()
+            example.captureInnerSelfStronglyUsingGuard()
+            
+            testObject = example
+        }
+        
+        XCTAssertNil(testObject)
+    }
+    
+    func testLeak12() {
+        weak var testObject = ClassExample()
+        
+        autoreleasepool {
+            let example = ClassExample()
+            example.captureInnerSelfWeaklyWithMultipleCaptureListArguments()
+            
+            testObject = example
+        }
+        
+        XCTAssertNil(testObject)
+    }
+    
+    func testLeak13() {
         let expectation = self.expectation(description: "")
         weak var testObject = ImplicitlyReleasingClosure()
         
@@ -250,7 +320,7 @@ class ClassesByExampleTests: XCTestCase {
         XCTAssertNil(testObject)
     }
     
-    func testLeak11() {
+    func testLeak14() {
         class Person {
             var pet: Pet?
         }

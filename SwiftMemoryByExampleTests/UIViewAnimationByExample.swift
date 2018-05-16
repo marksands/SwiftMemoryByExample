@@ -18,7 +18,7 @@ class UIViewAnimationExample: UIView {
     }
     
     func animateStrongly(withCompletion completion: @escaping () -> ()) {
-        UIView.animate(withDuration: 0, animations: {
+        UIView.animate(withDuration: 10, animations: {
             self.frame = self.frame.insetBy(dx: -10, dy: -10)
         }, completion: { _ in
             _ = self
