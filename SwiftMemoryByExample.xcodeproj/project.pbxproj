@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B1912A3920ABCB93008D043A /* UIViewAnimationByExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1912A3820ABCB93008D043A /* UIViewAnimationByExample.swift */; };
 		B1A35B5E20AA83F200D7CD97 /* SwiftMemoryByExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1A35B5420AA83F200D7CD97 /* SwiftMemoryByExample.framework */; };
 		B1A35B6320AA83F200D7CD97 /* EnumByExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A35B6220AA83F200D7CD97 /* EnumByExample.swift */; };
 		B1A35B6520AA83F200D7CD97 /* SwiftMemoryByExample.h in Headers */ = {isa = PBXBuildFile; fileRef = B1A35B5720AA83F200D7CD97 /* SwiftMemoryByExample.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B1912A3820ABCB93008D043A /* UIViewAnimationByExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewAnimationByExample.swift; sourceTree = "<group>"; };
 		B1A35B5420AA83F200D7CD97 /* SwiftMemoryByExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftMemoryByExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1A35B5720AA83F200D7CD97 /* SwiftMemoryByExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftMemoryByExample.h; sourceTree = "<group>"; };
 		B1A35B5820AA83F200D7CD97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				B1A35B6E20AA870800D7CD97 /* StructByExample.swift */,
 				B1A35B6220AA83F200D7CD97 /* EnumByExample.swift */,
 				B1A35B7220AA959900D7CD97 /* DispatchQueueByExample.swift */,
+				B1912A3820ABCB93008D043A /* UIViewAnimationByExample.swift */,
 				B1A35B7420AA97BC00D7CD97 /* ClassesByExample.swift */,
 				B1A35B7620AA97C700D7CD97 /* URLSessionByExample.swift */,
 				B1A35B6420AA83F200D7CD97 /* Info.plist */,
@@ -218,6 +221,7 @@
 			files = (
 				B1A35B7720AA97C700D7CD97 /* URLSessionByExample.swift in Sources */,
 				B1A35B6F20AA870800D7CD97 /* StructByExample.swift in Sources */,
+				B1912A3920ABCB93008D043A /* UIViewAnimationByExample.swift in Sources */,
 				B1A35B6320AA83F200D7CD97 /* EnumByExample.swift in Sources */,
 				B1A35B7520AA97BC00D7CD97 /* ClassesByExample.swift in Sources */,
 				B1A35B7120AA951D00D7CD97 /* TestHelpers.swift in Sources */,
