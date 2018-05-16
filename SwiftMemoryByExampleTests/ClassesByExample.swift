@@ -58,8 +58,55 @@ class ClassExample {
         }
     }
     
+    func captureImplicitSelfFromFunction() {
+        takeClosureArgument(releaseClosure)
+    }
+
+    func captureImplicitSelfFromFunction2() {
+        closure = { [weak self] in
+            if let block = self?.releaseClosure {
+                self?.takeClosureArgument(block)
+            }
+        }
+        closure()
+    }
+
+    func captureImplicitSelfWeaklyFromFunction() {
+        closure = { [weak self] in
+            self?.takeClosureArgument({
+                self?.releaseClosure()
+            })
+        }
+        closure()
+    }
+    
+    func takeClosureArgument(_ fn: @escaping () -> ()) {
+        closure = fn
+    }
+    
     func releaseClosure() {
         closure = { }
+    }
+}
+
+class ImplicitlyReleasingClosure {
+    var capturedClosure: (() -> ())?
+    
+    func doStuff(_ closure: @escaping () -> ()) {
+        self.capturedClosure = {
+            _ = self
+            closure()
+        }
+        deferWork()
+    }
+    
+    private func deferWork() {
+        if let closure = self.capturedClosure {
+            self.capturedClosure = nil
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                closure()
+            })
+        }
     }
 }
 
@@ -141,6 +188,85 @@ class ClassesByExampleTests: XCTestCase {
             example.releaseClosure()
         }
         
+        XCTAssertNil(testObject)
+    }
+    
+    func testLeak7() {
+        weak var testObject = ClassExample()
+        
+        autoreleasepool {
+            let example = ClassExample()
+            example.captureImplicitSelfFromFunction()
+            
+            testObject = example
+        }
+        
+        XCTAssertNil(testObject)
+    }
+    
+    func testLeak8() {
+        weak var testObject = ClassExample()
+        
+        autoreleasepool {
+            let example = ClassExample()
+            example.captureImplicitSelfFromFunction2()
+            
+            testObject = example
+        }
+        
+        XCTAssertNil(testObject)
+    }
+    
+    func testLeak9() {
+        weak var testObject = ClassExample()
+        
+        autoreleasepool {
+            let example = ClassExample()
+            example.captureImplicitSelfWeaklyFromFunction()
+            
+            testObject = example
+        }
+        
+        XCTAssertNil(testObject)
+    }
+    
+    func testLeak10() {
+        let expectation = self.expectation(description: "")
+        weak var testObject = ImplicitlyReleasingClosure()
+        
+        autoreleasepool {
+            let example = ImplicitlyReleasingClosure()
+            example.doStuff {
+                expectation.fulfill()
+            }
+            
+            testObject = example
+        }
+        
+        XCTAssertNotNil(testObject)
+        
+        XCTWaiter().wait(for: [expectation], timeout: 0.7)
+        
+        XCTAssertNil(testObject)
+    }
+    
+    func testLeak11() {
+        class Person {
+            var pet: Pet?
+        }
+        
+        class Pet {
+            var owner: Person?
+        }
+        
+        var person: Person? = Person()
+        let pet = Pet()
+        
+        person?.pet = pet
+        pet.owner = person
+        
+        weak var testObject = person
+        person = nil
         XCTAssertNil(testObject)
     }
 }
